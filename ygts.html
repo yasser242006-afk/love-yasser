@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>حب ياسر وهبة</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; font-family: 'Arial', sans-serif; }
+body, html { width:100%; height:100%; overflow-y:scroll; background:#000; color:#fff; }
+
+/* الخلفية */
+.video-bg video {
+    position:fixed; top:0; left:0;
+    width:100%; height:100%;
+    object-fit:cover; z-index:-2;
+}
+.video-bg .overlay {
+    position:fixed; top:0; left:0;
+    width:100%; height:100%;
+    background:rgba(0,0,0,0.4);
+    backdrop-filter:blur(5px);
+    z-index:-1;
+}
+
+/* المحتوى */
+.content {
+    position:relative;
+    width:100%;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:flex-start;
+    padding:50px 20px;
+}
+
+/* الصفحة الأولى - القلب */
+.heart-container {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    margin-top:50px;
+    cursor:pointer;
+    transition: transform 0.3s ease;
+}
+.heart-container:hover {
+    transform: scale(1.1);
+}
+.heart-container svg {
+    width:200px;
+    height:200px;
+    fill:red;
+    filter: drop-shadow(0 0 15px pink);
+}
+.heart-text {
+    margin-top:20px;
+    font-size:22px;
+    text-align:center;
+}
+
+/* زر الدخول */
+.btn-heart {
+    margin-top:30px;
+    padding:15px 30px;
+    background:linear-gradient(45deg,#ff4b2b,#ff416c);
+    color:white;
+    border:none;
+    border-radius:50px;
+    font-weight:bold;
+    cursor:pointer;
+    transition: all 0.3s ease;
+}
+.btn-heart:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+}
+
+/* الصفحة الثانية - التحقق */
+.password-group {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:20px;
+    margin-top:50px;
+}
+
+/* العداد */
+.counter-group {
+    display:flex;
+    flex-direction:column; 
+    gap:15px;
+    margin-bottom:50px;
+}
+
+.counter-box {
+    display:flex; 
+    gap:15px;
+    justify-content:center;
+}
+
+.box {
+    border:2px solid #fff;
+    padding:15px 20px;
+    min-width:120px;
+    text-align:center;
+    font-size:18px;
+    border-radius:10px;
+    background:rgba(255,255,255,0.1);
+    backdrop-filter:blur(3px);
+}
+
+/* الرسالة */
+.message-group {
+    max-width:800px;
+    margin-bottom:50px;
+}
+
+.message-normal {
+    background:rgba(255,255,255,0.1);
+    backdrop-filter:blur(5px);
+    padding:30px;
+    border-radius:20px;
+    font-size:18px;
+    line-height:1.7;
+    white-space:pre-wrap;
+}
+
+/* زر الرجوع */
+.btn {
+    padding:15px 30px;
+    background:linear-gradient(45deg,#ff4b2b,#ff416c);
+    color:white;
+    border:none;
+    border-radius:50px;
+    font-weight:bold;
+    cursor:pointer;
+    transition: all 0.3s ease;
+}
+.btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+}
+
+/* إخفاء الصفحات */
+.page { display:none; }
+.page.active { display:flex; flex-direction:column; align-items:center; }
+</style>
+</head>
+<body>
+
+<!-- الصفحة الأولى -->
+<div id="page1" class="page active content">
+    <div class="heart-container">
+        <svg viewBox="0 0 32 29.6">
+            <path d="M23.6,0c-3.4,0-6.4,2-8,4.9C13.8,2,10.8,0,7.4,0C3.3,0,0,3.3,0,7.4c0,4.9,4.4,8.9,11.1,14.3l4.9,4.2l4.9-4.2
+            C27.6,16.3,32,12.3,32,7.4C32,3.3,28.7,0,23.6,0z"/>
+        </svg>
+        <div class="heart-text">أنتي أحلى حاجة في حياتي</div>
+    </div>
+    <div style="margin-top:40px; font-size:28px; font-weight:bold;">Yasser & Heba</div>
+    <button id="goPassword" class="btn-heart">اضغط هنا</button>
+</div>
+
+<!-- الصفحة الثانية - التحقق -->
+<div id="pagePassword" class="page content">
+    <div class="password-group">
+        <input type="text" id="birthdayInput" placeholder="Password 4/2/2006" style="padding:15px; font-size:18px; border-radius:10px; border:none;">
+        <button id="checkBtn" class="btn">أضغط علي قلبي</button>
+        <div id="passwordMsg" style="margin-top:20px; font-size:18px; color:#ff5555;"></div>
+    </div>
+</div>
+
+<!-- الصفحة الثالثة - العداد + الرسالة -->
+<div id="page2" class="page content">
+    <!-- العداد -->
+    <div class="counter-group">
+        <div class="counter-box">
+            <div id="years" class="box"></div>
+            <div id="months" class="box"></div>
+        </div>
+        <div class="counter-box">
+            <div id="days" class="box"></div>
+            <div id="hours" class="box"></div>
+        </div>
+        <div class="counter-box">
+            <div id="minutes" class="box"></div>
+            <div id="seconds" class="box"></div>
+        </div>
+    </div>
+
+    <!-- الرسالة -->
+    <div class="message-group">
+        <div id="messageText" class="message-normal"></div>
+    </div>
+
+    <!-- زر الرجوع -->
+    <button id="backBtn" class="btn">رجوع للصفحة الرئيسية</button>
+</div>
+
+<script>
+// ======= التبديل بين الصفحات =======
+const page1 = document.getElementById("page1");
+const pagePassword = document.getElementById("pagePassword");
+const page2 = document.getElementById("page2");
+
+document.getElementById("goPassword").onclick = () => {
+    page1.classList.remove("active");
+    pagePassword.classList.add("active");
+};
+
+// ======= التحقق من الباسورد =======
+document.getElementById("checkBtn").onclick = () => {
+    const input = document.getElementById("birthdayInput").value.trim();
+    const passwordMsg = document.getElementById("passwordMsg");
+    if (input === "4/2/2006") {
+        pagePassword.classList.remove("active");
+        page2.classList.add("active");
+        passwordMsg.innerText = "";
+    } else {
+        passwordMsg.innerText = "😂غلط يـحمــــــــــــــارة";
+    }
+};
+
+// ======= إعداد الرسالة =======
+const message = `حبيبتي الغالية،  
+كل كلمة أكتبها لك الآن مليانة مشاعر ما قدرتش أعبر عنها قبل كده. يمكن الكلمات تقصر قدام اللي حاسس بيه جوه قلبي، بس عايزك تعرفي إنك بالنسبة لي أكتر من أي حاجة في الدنيا. أنت مش بس شخص غالي عليا، أنت الأمان اللي بحس بيه لما الدنيا تتقل عليا، أنت البسمة اللي بتنور أيامي حتى في أصعب لحظة، وأنت الحلم اللي بحلم بيه كل يوم من غير ما أصحى.  
+عارفة، ساعات بفكر فيك وبحس إزاي وجودك في حياتي خلاني أكتشف معنى الحب الحقيقي، مش الحب اللي الناس بتتكلم عنه وخلاص، ده حب بيكبر جوا القلب، حب بيخليني أكون أفضل، حب بيخليني أحب كل حاجة حواليّا أكتر بس عشان أنت موجودة. كل لحظة بدونك بتبقى ناقصة، وكل لحظة معاكي بتبقى كاملة، حتى لو مش بنعمل حاجة، مجرد إنك قريبة مني كفاية.  
+وأنا عايزك تعرفي كمان، مهما حصل أو الدنيا بعدتنا أو حتى لو الظروف صعبة، مكانك في قلبي مش هيبقى حد يقدر ياخده منك. أنت مش بس حبيبتي، أنت كل حاجة ليا، أنت الأمل اللي بيخليني أصبر على أي حاجة، أنت اللي بخاف أفقدك فيها حتى لو مجرد فكرة.  
+وأنا كل يوم بكتبلك في قلبي، في خيالي، في كل حاجة حواليّا، بحلم باليوم اللي نعيش فيه سوا كل لحظة بدون خوف، بدون ألم، بس حب ودفء وطمأنينة. بحبك مش بكلام بس، بحبك بكل تفاصيلي، بكل ضعفى وقوتى، بكل ضحكتي ودمعتي، بحبك لأنك أنت.  
+وياريت تعرفي إن كل مرة بسمع فيها عنك أو بشوفك أو حتى أتخيلك، بحس إن قلبي بينبض بسرعة من الفرحة، وبحس إني محظوظ جدًا إنك موجودة في حياتي. وبجد، مهما حاولت أو حتى لو حاولت أكتب آلاف الصفحات عنك، مش هقدر أوصف قد إيه أنت غالية عليا. كل حاجة فيك، من بسمة عيونك لضحكتك ولحسك ولشخصيتك، كل حاجة بتخليني أحبك أكتر.  
+أنا عايزك تعرفي إنك مش بس نصفي التاني، أنت كل حياتي، ومهما حصل، مهما الدنيا حاولت تبعدنا عن بعض، قلبي هيفضل متعلق بيكي، بحبك من غير شروط، من غير أسباب، بحبك بس عشان أنت أنت.  
+وبالمناسبة، أنا مستعد أعمل أي حاجة عشان أشوفك سعيدة، أي حاجة تخليك تحسي بالراحة، أي حاجة تخلي يومك أحلى. حياتي ملكك من دلوقتي وكل لحظة فيها ليكي.  
+بحبك… بحبك وبحبك وكل كلمة بحس إنها قليلة قدام اللي جوه قلبي  
+من قلبك اللي دايمًا ليكي`;
+
+// ======= العداد =======
+let startDate = new Date();
+startDate.setFullYear(startDate.getFullYear() - 1); // سنة واحدة
+startDate.setMonth(startDate.getMonth() - 1); // شهر
+startDate.setHours(startDate.getHours() - 6);
+startDate.setMinutes(startDate.getMinutes() - 33);
+startDate.setSeconds(startDate.getSeconds() - 20);
+
+function updateCounter() {
+    const now = new Date();
+    let diff = now - startDate;
+
+    let seconds = Math.floor(diff / 1000);
+    let minutes = Math.floor(seconds / 60);
+    let hours = Math.floor(minutes / 60);
+    let days = Math.floor(hours / 24);
+    let months = Math.floor(days / 30);
+    let years = Math.floor(months / 12);
+
+    seconds %= 60;
+    minutes %= 60;
+    hours %= 24;
+    days %= 30;
+    months %= 12;
+
+    document.getElementById("years").innerText = years + " سنة";
+    document.getElementById("months").innerText = months + " شهر";
+    document.getElementById("days").innerText = days + " يوم";
+    document.getElementById("hours").innerText = hours + " ساعة";
+    document.getElementById("minutes").innerText = minutes + " دقيقة";
+    document.getElementById("seconds").innerText = seconds + " ثانية";
+}
+
+setInterval(updateCounter, 1000);
+updateCounter();
+
+// ======= الرسالة التدريجية =======
+function showMessage() {
+    let i = 0;
+    const textContainer = document.getElementById("messageText");
+    const interval = setInterval(() => {
+        if (i < message.length) {
+            textContainer.innerText += message.charAt(i);
+            i++;
+        } else clearInterval(interval);
+    }, 30);
+}
+window.onload = showMessage;
+
+// ======= زر الرجوع =======
+document.getElementById("backBtn").onclick = function() {
+    page2.classList.remove("active");
+    page1.classList.add("active");
+};
+</script>
+</body>
+</html>
